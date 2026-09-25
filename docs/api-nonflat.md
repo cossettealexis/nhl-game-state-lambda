@@ -34,7 +34,7 @@ The Lambda also accepts a nested case where `gameId` is supplied using a differe
 ```json
 {
   "statusCode": 200,
-  "body": "{\"gameid\":\"2025021230\",\"gameState\":\"LIVE\",\"status\":\"STARTED\",\"started\":true,\"ended\":false,\"isLive\":true}"
+  "body": "{\"gameid\":\"2025021230\",\"gameState\":\"OFF\",\"gameScheduleState\":\"OK\",\"startTimeUTC\":\"2026-04-06T23:30:00Z\",\"easternUTCOffset\":\"-04:00\",\"venueUTCOffset\":\"-05:00\",\"venueTimezone\":\"America/Winnipeg\",\"status\":\"ENDED\",\"started\":false,\"ended\":true,\"isLive\":false}"
 }
 ```
 

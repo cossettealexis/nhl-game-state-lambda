@@ -27,13 +27,32 @@ Example:
 ```json
 {
   "gameid": "2025021230",
-  "gameState": "LIVE",
-  "status": "STARTED",
-  "started": true,
-  "ended": false,
-  "isLive": true
+  "gameState": "OFF",
+  "gameScheduleState": "OK",
+  "startTimeUTC": "2026-04-06T23:30:00Z",
+  "easternUTCOffset": "-04:00",
+  "venueUTCOffset": "-05:00",
+  "venueTimezone": "America/Winnipeg",
+  "status": "ENDED",
+  "started": false,
+  "ended": true,
+  "isLive": false
 }
 ```
+
+## Field definitions
+
+- `gameid`: NHL game identifier
+- `gameState`: current NHL lifecycle state
+- `gameScheduleState`: schedule state from the NHL landing payload
+- `startTimeUTC`: start time in UTC
+- `easternUTCOffset`: Eastern time offset
+- `venueUTCOffset`: venue local offset from UTC
+- `venueTimezone`: venue IANA timezone name
+- `status`: normalized lifecycle status (`STARTED`, `ENDED`, `SCHEDULED`, `UNKNOWN`)
+- `started`: true when the game is in a started state
+- `ended`: true when the game is in an ended state
+- `isLive`: true only for live/critical states
 
 ## Status meanings
 
@@ -48,6 +67,11 @@ Example:
 {
   "gameid": "2025021231",
   "gameState": "FINAL",
+  "gameScheduleState": "OK",
+  "startTimeUTC": "2026-04-06T23:30:00Z",
+  "easternUTCOffset": "-04:00",
+  "venueUTCOffset": "-05:00",
+  "venueTimezone": "America/Winnipeg",
   "status": "ENDED",
   "started": false,
   "ended": true,

@@ -61,13 +61,26 @@ See the documentation below for both formats:
 ```json
 {
   "gameid": "2025021230",
-  "gameState": "LIVE",
-  "status": "STARTED",
-  "started": true,
-  "ended": false,
-  "isLive": true
+  "gameState": "OFF",
+  "gameScheduleState": "OK",
+  "startTimeUTC": "2026-04-06T23:30:00Z",
+  "easternUTCOffset": "-04:00",
+  "venueUTCOffset": "-05:00",
+  "venueTimezone": "America/Winnipeg",
+  "status": "ENDED",
+  "started": false,
+  "ended": true,
+  "isLive": false
 }
 ```
+
+Additional NHL metadata returned by the landing payload:
+
+- `gameScheduleState`
+- `startTimeUTC`
+- `easternUTCOffset`
+- `venueUTCOffset`
+- `venueTimezone`
 
 ## Response behavior
 
@@ -115,7 +128,7 @@ Expected response:
 ```json
 {
   "statusCode": 200,
-  "body": "{\"gameid\":\"2025021230\",\"gameState\":\"OFF\",\"status\":\"ENDED\",\"started\":false,\"ended\":true,\"isLive\":false}"
+  "body": "{\"gameid\":\"2025021230\",\"gameState\":\"OFF\",\"gameScheduleState\":\"OK\",\"startTimeUTC\":\"2026-04-06T23:30:00Z\",\"easternUTCOffset\":\"-04:00\",\"venueUTCOffset\":\"-05:00\",\"venueTimezone\":\"America/Winnipeg\",\"status\":\"ENDED\",\"started\":false,\"ended\":true,\"isLive\":false}"
 }
 ```
 
