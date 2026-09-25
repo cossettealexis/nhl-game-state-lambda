@@ -46,7 +46,12 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 "body": json.dumps({"error": "Missing gameid"}),
             }
 
-        game_state = get_game_state(str(gameid))
+        url = f"https://api-web.nhle.com/v1/gamecenter/{gameid}/landing"
+        request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(request, timeout=15) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+
+        game_state = payload.get("gameState") or get_game_state(str(gameid))
         if not game_state:
             return {
                 "statusCode": 404,
@@ -58,16 +63,23 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 
         status = classify_game_state(game_state)
 
+        response_body = {
+            "gameid": str(gameid),
+            "gameState": game_state,
+            "gameScheduleState": payload.get("gameScheduleState"),
+            "startTimeUTC": payload.get("startTimeUTC"),
+            "easternUTCOffset": payload.get("easternUTCOffset"),
+            "venueUTCOffset": payload.get("venueUTCOffset"),
+            "venueTimezone": payload.get("venueTimezone"),
+            "status": status,
+            "started": game_state in LIVE_STATES,
+            "ended": game_state in ENDED_STATES,
+            "isLive": game_state in {"LIVE", "CRIT"},
+        }
+
         return {
             "statusCode": 200,
-            "body": json.dumps({
-                "gameid": str(gameid),
-                "gameState": game_state,
-                "status": status,
-                "started": game_state in LIVE_STATES,
-                "ended": game_state in ENDED_STATES,
-                "isLive": game_state in {"LIVE", "CRIT"},
-            }),
+            "body": json.dumps(response_body),
         }
     except Exception as exc:  # pragma: no cover - defensive fail path
         return {
